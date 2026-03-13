@@ -1,23 +1,30 @@
-version - 20230615 by bo.zheng
-# 暂无CICD,需本地build
+# 项目介绍
 
-## 本地debug配置：
-    1. 修改目录名称：rap-backend -> rap_backend  ， (历史兼容问题) 
-    2. 运行参数  rap_backend /Users/bz/airudder/rap_backend/docker/release/rap_backend.config
-    3. 修改rap_backend.config中的配置
-    4. 示例：
-```
-#LogFile: the log file store
-LogFile = /Users/bz/airudder/rap_backend/log/rap_backend.log
+这是一个基于 Go 构建的后端服务，主要用于支撑通话数据的任务化处理与业务管理。服务以 HTTP API 形式对外提供能力，覆盖登录鉴权、任务流转、标注处理、审核分析、字段模板管理、用户与权限管理，以及基础监控暴露等核心场景。
 
-#CfgRoot: the config root path
-CfgRoot = /Users/bz/airudder/rap_backend/docker/rap_backend/release/etc_bak/
-```
-    4. 按需修改db.config、common.config、gauessdb.config、oss.config
-    5. 运行rap_backend
+## 主要能力
 
+- 提供统一的 API 入口与鉴权能力
+- 支持任务创建、分配、查询、下载、删除与统计
+- 支持通话数据的标注、审核、分析与结果回写
+- 支持标签字段与标签模板管理
+- 支持用户、角色、国家等基础信息管理
+- 集成 SSO、Prometheus 指标以及外部数据服务调用
 
-## 生产发布流程
-    1. 执行makeimge.sh
-    2. 配置修改 - 直接去机器上修改!!!
-    3. cmp发布
+## 代码结构
+
+- `src/rap_backend/httpserver`：HTTP 路由与接口处理
+- `src/rap_backend/service`：核心业务逻辑
+- `src/rap_backend/dao`：数据访问层
+- `src/rap_backend/config`：配置定义与环境加载
+- `src/rap_backend/fileprocess`：文件与对象存储相关处理
+- `src/rap_backend/rpc`：外部服务调用封装
+- `docker/rap_backend/release`：容器化发布相关文件
+
+## 配置说明
+
+项目依赖多类环境配置，包括数据库、对象存储、外部服务、认证信息与部署参数。仓库中的示例配置仅用于说明字段结构，实际使用时应通过安全方式注入真实配置，不应将敏感信息直接提交到版本库。
+
+## 适用场景
+
+适合需要对通话或任务型数据进行采集、分配、标注、审核、分析与管理的一体化后端场景。
