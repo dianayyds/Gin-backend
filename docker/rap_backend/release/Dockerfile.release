@@ -1,0 +1,34 @@
+FROM airudder-registry.cn-hongkong.cr.aliyuncs.com/airudder/voip-go116-project-build:u18_plus
+MAINTAINER king.qin <king.qin@airudder.cn>
+
+LABEL Description="This image is used for release rap_backend"
+
+RUN mkdir -p /rap_backend/bin && \
+    mkdir -p /rap_backend/etc
+
+COPY  ./rap_backend.config /rap_backend/etc_bak/
+COPY  ./etc_bak/* /rap_backend/etc_bak/
+COPY  ./rap_backend /rap_backend/bin/
+
+ENV GOTRACEBACK single
+ENV SERVICENAME rap_backend
+
+ENV LD_LIBRARY_PATH /rap_backend/bin/:$LD_LIBRARY_PATH
+
+WORKDIR /rap_backend
+
+ENTRYPOINT ["/rap_backend/bin/rap_backend", "/rap_backend/etc/rap_backend.config"]
+
+#sudo docker run -it --restart=always --net=host -v /home/admin/rap_backend/etc:/rap_backend/etc -v /home/admin/rap_backend/ssd/:/ssd/ -v /home/admin/rap_backend/ssd/:/rap_backend/ssd/ --name rap_backend registry.cn-hongkong.aliyuncs.com/airudder/rap_backend:20210629201054 /bin/bash
+
+#/usr/sbin/rtpengine --table=0 --interface=172.31.46.64!18.166.3.63 --listen-ng=172.31.46.64:2223 --listen-cli=172.31.46.64:2224 --no-fallback --delete-delay=0 --port-min=40000 --port-max=50000
+
+#protoc  ./*.proto --go_out=plugins=grpc:.
+
+#curl -H "Content-Type:application/json" -H "Data_Type:msg" -X POST --data '{"label_name":"AppName","label_creator":"king.qin","label_desc":"The name of App", "label_is_optional":1}' http://172.20.207.3:2200/rap/label/create
+
+#SELECT dstchannel, substring_index(calleemediaip,":", 1), count(*) FROM `cdr_postbrother_6` where invitetime>="2021-6-30 00:00:00" and dstchannel like "id_sti%" group by dstchannel, substring_index(calleemediaip,":", 1)
+
+
+
+#curl -H "Content-Type:application/json" -H "Data_Type:msg" -X POST --data '{"task_name":"test1", "task_creator":"king.qin", "start_time":"2022-1-20 19:00:00", "finish_time":"2022-1-21 19:00:00", "task_operators":["zhiyong.wu"], "label_id":["lab_69575bdc6e424fea9936687344324b2c","lab_88919b091d2947a6b9d8885f3eb177bd","lab_5c4e027c14674a6699483b48d97d4e3f"], "call_id":["36108b4dd2b719fa81bceccd71dc69e2","824b7fa96e86131d219371181b36eda0"]}' http://47.243.237.75:2200/rap/task/create

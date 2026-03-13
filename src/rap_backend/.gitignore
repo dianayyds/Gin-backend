@@ -1,0 +1,5 @@
+.air.toml
+etc/
+ssd/
+.vscode
+.DS_Store

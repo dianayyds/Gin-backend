@@ -1,0 +1,9 @@
+build/*
+*.pid
+bin/
+.DS_Store
+.vscode
+.idea/*
+vendor
+.agollo
+log/
